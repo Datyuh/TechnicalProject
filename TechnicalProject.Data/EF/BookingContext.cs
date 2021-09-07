@@ -3,26 +3,30 @@ using TechnicalProject.Data.Entities;
 
 namespace TechnicalProject.Data.EF
 {
-    public sealed class BookingContext : DbContext
+    public sealed partial class BookingContext : DbContext
     {
-        DbSet<Warehouse> Warehouses { get; set; }
-        DbSet<Booking> Bookings { get; set; }
+        public DbSet<ProductClothes> ProductClothess { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
-        public BookingContext()
+        public BookingContext(DbContextOptions<BookingContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BookingDb;Trusted_Connection=True;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+            }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Warehouse>().HasData(
-                new() { Id=1, NameProduct = "Костюм Спортивный муж.", CountProduct = 30, Price = 3500.54M}, 
-                new() { Id=2, NameProduct = "Брюки муж.", CountProduct = 10, Price = 1500.65M}, 
-                new() { Id=3, NameProduct = "Футболки жен.", CountProduct = 30, Price = 500.47M});
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

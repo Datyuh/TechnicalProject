@@ -2,7 +2,7 @@
 
 namespace TechnicalProject.Data.Entities
 {
-    class Booking
+    public class Booking
     {
         public int Id { get; set; }
         public int NumberBooking { get; set; }
