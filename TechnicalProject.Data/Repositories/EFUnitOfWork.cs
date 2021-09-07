@@ -8,23 +8,23 @@ namespace TechnicalProject.Data.Repositories
 {
     class EfUnitOfWork : IUnitOfWork
     {
-        private BookingContext db;
-        private ProductClothesRepositories clothesRepositories;
-        private WarehouseRepositories warehouseRepositories;
-        private BookingRepositories bookingRepositories;
+        private readonly BookingContext _db;
+        private ProductClothesRepositories _clothesRepositories;
+        private WarehouseRepositories _warehouseRepositories;
+        private BookingRepositories _bookingRepositories;
 
         public EfUnitOfWork(DbContextOptions<BookingContext> options)
         {
-            db = new BookingContext(options);
+            _db = new BookingContext(options);
         }
 
         public IRepository<ProductClothes> ProductClothess
         {
             get
             {
-                if (clothesRepositories == null)
-                    clothesRepositories = new ProductClothesRepositories(db);
-                return clothesRepositories;
+                if (_clothesRepositories == null)
+                    _clothesRepositories = new ProductClothesRepositories(_db);
+                return _clothesRepositories;
             }
         }
 
@@ -32,9 +32,9 @@ namespace TechnicalProject.Data.Repositories
         {
             get
             {
-                if (warehouseRepositories == null)
-                    warehouseRepositories = new WarehouseRepositories(db);
-                return warehouseRepositories;
+                if (_warehouseRepositories == null)
+                    _warehouseRepositories = new WarehouseRepositories(_db);
+                return _warehouseRepositories;
             }
         }
 
@@ -42,15 +42,15 @@ namespace TechnicalProject.Data.Repositories
         {
             get
             {
-                if (bookingRepositories == null)
-                    bookingRepositories = new BookingRepositories(db);
-                return bookingRepositories;
+                if (_bookingRepositories == null)
+                    _bookingRepositories = new BookingRepositories(_db);
+                return _bookingRepositories;
             }
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
 
         private bool disposed = false;
@@ -61,7 +61,7 @@ namespace TechnicalProject.Data.Repositories
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
                 this.disposed = true;
             }
