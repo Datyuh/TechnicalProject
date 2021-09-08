@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Ninject" Version="3.3.4" />
+    <Folder Include="Repositories\Abstract\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
